@@ -22,8 +22,8 @@ const app = express();
 
 // ✅ Setup CORS here
 const allowedOrigins = [
-  "http://localhost:5173", // for local development
-  "https://ecommerce-frontend-phi-tawny.vercel.app", // your Vercel frontend
+ "https://ecommerce-frontend-phi-tawny.vercel.app", // ✅ Your Vercel frontend
+  "http://localhost:3000", // Optional: For local testing
 ];
 
 app.use(
