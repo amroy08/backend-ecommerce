@@ -2,27 +2,33 @@ import Category from "../models/categoryModel.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 
 const createCategory = asyncHandler(async (req, res) => {
-  const { name } = req.body;
-
-  if (!name) {
-    return res.status(400).json({ message: "Category name is required" });
-  }
-
-  const existingCategory = await Category.findOne({ name });
-
-  if (existingCategory) {
-    return res.status(400).json({ message: "Category already exists" });
-  }
-
   try {
-    const category = new Category({ name });
-    const saved = await category.save();
-    res.status(201).json(saved);
+    console.log("REQ.BODY:", req.body);
+
+    const { name } = req.body;
+
+    if (!name) {
+      console.log("❌ Name is missing");
+      return res.status(400).json({ error: "Name is required" });
+    }
+
+    const existingCategory = await Category.findOne({ name });
+
+    if (existingCategory) {
+      console.log("⚠️ Category already exists");
+      return res.status(400).json({ error: "Already exists" });
+    }
+
+    const category = await new Category({ name }).save();
+    console.log("✅ Category created:", category);
+
+    res.json(category);
   } catch (error) {
-    console.error("Create category error:", error.message);
-    res.status(500).json({ message: "Failed to create category" });
+    console.error("🚨 CATEGORY CREATE ERROR:", error);
+    return res.status(500).json({ error: error.message });
   }
 });
+
 
 
 const updateCategory = asyncHandler(async (req, res) => {
