@@ -3,19 +3,20 @@ import asyncHandler from "../middlewares/asyncHandler.js";
 
 const createCategory = asyncHandler(async (req, res) => {
   try {
-    console.log("REQ.BODY:", req.body);
+    console.log("➡️ Incoming request to create category");
+    console.log("📝 Body received:", req.body);
 
     const { name } = req.body;
 
     if (!name) {
-      console.log("❌ Name is missing");
+      console.log("❌ No name provided");
       return res.status(400).json({ error: "Name is required" });
     }
 
     const existingCategory = await Category.findOne({ name });
 
     if (existingCategory) {
-      console.log("⚠️ Category already exists");
+      console.log("⚠️ Category already exists:", name);
       return res.status(400).json({ error: "Already exists" });
     }
 
@@ -24,10 +25,11 @@ const createCategory = asyncHandler(async (req, res) => {
 
     res.json(category);
   } catch (error) {
-    console.error("🚨 CATEGORY CREATE ERROR:", error);
+    console.error("❌ Error creating category:", error);
     return res.status(500).json({ error: error.message });
   }
 });
+
 
 
 
