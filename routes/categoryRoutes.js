@@ -38,7 +38,7 @@ router.route("/list").get(listCategory);         // /api/category/list
 router.route("/read/:id").get(readCategory);     // /api/category/read/:id
 
 // ✅ Authenticated routes
-router.route("/").post(authenticate, authorizeAdmin, createCategory);
+router.route("/").post(createCategory);
 router.route("/:categoryId").put(authenticate, authorizeAdmin, updateCategory);
 router.route("/:categoryId").delete(authenticate, authorizeAdmin, removeCategory);
 
